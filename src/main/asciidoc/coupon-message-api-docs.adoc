@@ -1,4 +1,4 @@
-= Category
+= Coupon message API
 
 === 쿠폰 사용 / 지급 완료 메시지 등록 및 발행
 
