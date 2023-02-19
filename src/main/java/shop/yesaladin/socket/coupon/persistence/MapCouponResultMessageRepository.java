@@ -21,7 +21,7 @@ import shop.yesaladin.socket.coupon.domain.repository.CouponResultMessageReposit
 @Repository
 public class MapCouponResultMessageRepository implements CouponResultMessageRepository {
 
-    private final Map<String, CouponResultDto> couponResultMap = new ConcurrentHashMap<>();
+    private static final Map<String, CouponResultDto> couponResultMap = new ConcurrentHashMap<>();
 
     @Override
     public void save(CouponResultDto result) {

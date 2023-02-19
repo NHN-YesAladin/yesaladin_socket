@@ -1,6 +1,7 @@
 package shop.yesaladin.socket.coupon.persistence;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -23,17 +24,24 @@ class MapCouponResultMessageRepositoryTest {
     void setUp() throws NoSuchFieldException, IllegalAccessException {
         repository = new MapCouponResultMessageRepository();
         store = new ConcurrentHashMap<>();
-        Field couponResultMap = MapCouponResultMessageRepository.class.getDeclaredField(
+
+        Field resultMapField = MapCouponResultMessageRepository.class.getDeclaredField(
                 "couponResultMap");
-        couponResultMap.setAccessible(true);
-        couponResultMap.set(repository, store);
+
+        Field modifierField = resultMapField.getClass().getDeclaredField("modifiers");
+        modifierField.setAccessible(true);
+        modifierField.setInt(resultMapField, resultMapField.getModifiers() & ~Modifier.FINAL);
+
+        resultMapField.setAccessible(true);
+        resultMapField.set(repository, store);
     }
 
     @Test
     @DisplayName("쿠폰 처리 결과 메시지가 저장된다.")
     void saveTest() {
         // given
-        CouponResultDto expected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto expected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId",
                 true,
                 null,
@@ -52,13 +60,15 @@ class MapCouponResultMessageRepositoryTest {
     @DisplayName("request id로 존재 여부를 반환한다.")
     void existsByRequestIdTest() {
         // given
-        CouponResultDto expected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto expected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId",
                 true,
                 null,
                 LocalDateTime.now()
         );
-        CouponResultDto unexpected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto unexpected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId1",
                 true,
                 null,
@@ -78,13 +88,15 @@ class MapCouponResultMessageRepositoryTest {
     @DisplayName("request id로 결과 메시지를 찾아온다.")
     void getByRequestIdTest() {
         // given
-        CouponResultDto expected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto expected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId",
                 true,
                 null,
                 LocalDateTime.now()
         );
-        CouponResultDto unexpected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto unexpected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId1",
                 true,
                 null,
@@ -104,13 +116,15 @@ class MapCouponResultMessageRepositoryTest {
     @DisplayName("request id로 메시지를 삭제한다.")
     void deleteByRequestIdTest() {
         // given
-        CouponResultDto expected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto expected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId",
                 true,
                 null,
                 LocalDateTime.now()
         );
-        CouponResultDto unexpected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto unexpected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId1",
                 true,
                 null,
@@ -132,13 +146,15 @@ class MapCouponResultMessageRepositoryTest {
     void findAllOver30MinFromIssuedTest() {
         // given
         Clock clock = Clock.fixed(Instant.ofEpochSecond(100000000), ZoneId.of("UTC"));
-        CouponResultDto expected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto expected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId",
                 true,
                 null,
                 LocalDateTime.now(clock).minusMinutes(31)
         );
-        CouponResultDto unexpected = new CouponResultDto(CouponSocketRequestKind.USE,
+        CouponResultDto unexpected = new CouponResultDto(
+                CouponSocketRequestKind.USE,
                 "requestId1",
                 true,
                 null,
