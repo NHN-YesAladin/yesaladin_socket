@@ -17,6 +17,8 @@
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <restDocs.version>2.0.7.RELEASE</restDocs.version>
+        <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
     </properties>
     <repositories>
         <repository>
@@ -78,6 +80,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <groupId>org.springframework.restdocs</groupId>
+            <scope>test</scope>
+            <version>${restDocs.version}</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -105,6 +113,59 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <artifactId>spring-restdocs-asciidoctor</artifactId>
+                        <groupId>org.springframework.restdocs</groupId>
+                        <version>${restDocs.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <attributes>
+                                <snippets>${snippetsDirectory}</snippets>
+                            </attributes>
+                            <backend>html</backend>
+                            <doctype>book</doctype>
+                        </configuration>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <id>generate-docs</id>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+                <groupId>org.asciidoctor</groupId>
+                <version>1.5.8</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.outputDirectory}/static/docs
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ${project.build.directory}/generated-docs
+                                    </directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <id>copy-resources</id>
+                        <phase>prepare-package</phase>
+                    </execution>
+                </executions>
+                <version>2.7</version>
             </plugin>
         </plugins>
     </build>
