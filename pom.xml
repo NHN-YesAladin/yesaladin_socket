@@ -33,6 +33,15 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>1.10.3</version>
+        </dependency>
+        <dependency>
             <groupId>toast</groupId>
             <artifactId>logncrash-logback-sdk</artifactId>
             <version>3.0.5</version>
