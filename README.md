@@ -14,6 +14,14 @@ YesAladin socket은 shop 서버와 클라이언트간 Websocket 통신을 지원
 
 - Spring Websocket, SockJS, STOMP를 사용하여 웹소켓 서버 구축
 
+## Project Architecture
+
+<img width="1055" alt="스크린샷 2023-02-22 오전 10 15 46" src="https://user-images.githubusercontent.com/60968342/220495610-18e516d6-4bae-49b4-bfdb-84f72d890af5.png">
+
+## CI/CD
+
+<img width="1102" alt="스크린샷 2023-02-22 오후 7 24 08" src="https://user-images.githubusercontent.com/60968342/220593590-58f50bd3-302f-455d-bf99-78371b2a1ba7.png">
+
 ## Tech Stack
 
 ### Languages
@@ -33,6 +41,7 @@ YesAladin socket은 shop 서버와 클라이언트간 Websocket 통신을 지원
 
 ![NHN Cloud](https://img.shields.io/badge/-NHN%20Cloud-blue?style=flat&logo=iCloud&logoColor=white)
 ![Jenkins](http://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=Jenkins&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat&logo=Grafana&logoColor=white)
 
 ### 형상 관리 전략
 
