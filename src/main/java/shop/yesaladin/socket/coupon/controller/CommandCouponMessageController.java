@@ -1,6 +1,7 @@
 package shop.yesaladin.socket.coupon.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import shop.yesaladin.socket.coupon.service.inter.CouponWebsocketMessageService;
  * @author 김홍대
  * @since 1.0
  */
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/coupon-messages")
@@ -33,6 +35,8 @@ public class CommandCouponMessageController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseDto<Void> registerMessage(@RequestBody CouponResultDto message) {
+        log.info("requestId {} result message received", message.getRequestId());
+
         couponWebsocketMessageService.trySendGiveCouponResultMessage(message);
 
         return ResponseDto.<Void>builder().status(HttpStatus.CREATED).success(true).build();
